@@ -1,0 +1,34 @@
+{
+  "variables": {
+    "AWS_ACCESS_KEY_ID": "",
+    "AWS_SECRET_ACCESS_KEY": ""
+  },
+  "sensitive-variables": ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"],
+  "builders": [{
+      "ami_name": "{{user `AMI_NAME`}}-{{timestamp}}",
+      "type": "amazon-ebs",
+      "access_key": "{{user `AWS_ACCESS_KEY_ID`}}",
+      "secret_key": "{{user `AWS_SECRET_ACCESS_KEY`}}",
+      "region": "{{user `PACKER_REGION`}}",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "tags": {
+        "component":"jenkins"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "name": "*ubuntu-focal-20.04-amd64-server-*",
+          "root-device-type": "ebs",
+          "virtualization-type": "hvm"
+        },
+        "most_recent": true,
+        "owners": ["099720109477"]
+      }
+  }],
+  "provisioners": [
+    {
+        "type": "shell",
+        "script": "../roles/sf.create_ami/templates/install-jenkins.sh"
+    }
+  ]      
+}

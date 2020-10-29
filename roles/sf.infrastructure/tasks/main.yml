@@ -1,0 +1,14 @@
+---
+# tasks file for sf.infrastructure
+
+- name: Create Jenkins infrastructure
+  community.general.terraform:
+    project_path: '../roles/sf.infrastructure/files/sf'
+    state: present
+    force_init: true
+    variables:
+      region: "{{ region }}"
+      instance_type: "{{ jenkins_instance_type }}"
+      key: "{{ jenkins_key_name }}"
+      ami_name: "{{ ami_name }}"
+      ami_owner: "{{ jenkins_ami_owner }}"

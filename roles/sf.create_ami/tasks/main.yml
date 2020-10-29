@@ -1,0 +1,21 @@
+---
+# tasks file for sf.createami
+
+- name: Set credentials facts from environment
+  shell: "echo ${AWS_ACCESS_KEY_ID}"
+  register: AWS_ACCESS_KEY_ID
+  no_log: true
+
+- name: Set credentials facts from environment
+  shell: "echo ${AWS_SECRET_ACCESS_KEY}"
+  register: AWS_SECRET_ACCESS_KEY
+  no_log: true
+
+- name: Build packer image
+  shell: |
+    packer build \
+      -var 'PACKER_REGION={{ region }}' \
+      -var 'AMI_NAME={{ ami_name }}' \
+      -var 'AWS_ACCESS_KEY_ID={{AWS_ACCESS_KEY_ID.stdout}}' \
+      -var 'AWS_SECRET_ACCESS_KEY={{AWS_SECRET_ACCESS_KEY.stdout}}' \
+      ../roles/sf.create_ami/templates/jenkins-ami.json

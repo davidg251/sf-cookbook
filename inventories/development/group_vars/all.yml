@@ -1,0 +1,6 @@
+environment: dev
+ami_name: sfjenkins
+region: us-east-2
+jenkins_instance_type: t3.small
+jenkins_key_name: sf
+jenkins_ami_owner: 368932485079

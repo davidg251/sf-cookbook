@@ -1,0 +1,5 @@
+---
+- name: Create Jenkins infrastructure
+  hosts: localhost
+  roles: 
+    - ../roles/sf.infrastructure
